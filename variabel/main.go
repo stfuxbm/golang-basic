@@ -1,67 +1,45 @@
 package main
 
-import (
-	"fmt"
-	"reflect" // Package ini digunakan untuk memeriksa tipe data dari sebuah variabel
-)
+import "fmt"
 
-var x = 1 // Deklarasi variabel global dengan nilai 1
-
-// Deklarasi variabel secara grup, bisa di luar fungsi dan bisa dideklarasikan dengan tipe data tertentu
+// Deklarasi variabel global secara grup (untuk digunakan di seluruh paket)
+/*
+Jika variabel tersebut perlu diakses oleh beberapa fungsi dalam program, variabel global lebih tepat digunakan.
+*/
 var (
-	fullName       = "Braiyen Massora" // Tipe data string
-	ages           = 29                // Tipe data int
-	isHandsome     = true              // Tipe data bool
-	height     int = 171               // Tipe data int, nilai default bisa langsung ditetapkan
+	fullName       = "Jhon Due" // Tipe data string
+	ages           = 29         // Tipe data int
+	isHandsome     = true       // Tipe data bool
+	height     int = 171        // Tipe data int dengan nilai eksplisit
 )
 
-// Variabel lokal hanya dapat dideklarasikan menggunakan format ini di dalam fungsi main
-// y := 2 hanya bisa digunakan di dalam fungsi main
 func main() {
-	// DEKLARASI VARIABEL DENGAN NILAI
-	fmt.Println("// DEKLARASI VARIABEL DENGAN NILAI")
-	// Penamaan variabel di Go mayoritas menggunakan camelCase
-	var name = "Braiyen"                   // Tipe data string, Go akan mendeteksi tipe secara otomatis
-	age := 17                              // Tipe data int, deklarasi dengan cara ini hanya berlaku di dalam fungsi
-	var locationAddress string = "Jakarta" // Tipe data string, hanya menyimpan teks
+	// Deklarasi variabel tanpa tipe data eksplisit (type inference)
+	var stringData = "ini string data" // Tipe otomatis: string
+	var booleanData = true             // Tipe otomatis: bool
+	var intData = 7                    // Tipe otomatis: int
 
-	// Output untuk menunjukkan nilai variabel
-	fmt.Println("Hello my name is: ", name)
-	fmt.Println("My age is: ", age)
-	fmt.Println("You can find me at: ", locationAddress)
-	fmt.Println("Nilai variabel x: ", x)
+	// Deklarasi variabel dengan tipe data eksplisit
+	var tipeString string = "dengan tipe data" // Tipe eksplisit string
+	var tipeBoolean bool = false               // Tipe eksplisit bool
+	var tipeInteger int = 1                    // Tipe eksplisit int
 
-	// DEKLARASI VARIABEL TANPA NILAI
-	fmt.Println("// DEKLARASI VARIABEL TANPA NILAI")
-	var a string // Tipe data string tanpa nilai, secara default akan bernilai kosong ""
-	var b int    // Tipe data int tanpa nilai, secara default akan bernilai 0
-	var c bool   // Tipe data bool tanpa nilai, secara default akan bernilai false
+	// Deklarasi menggunakan shorthand assignment (tipe otomatis)
+	tipeShort := 5 // Tipe otomatis ditentukan oleh Go, bisa int, float, string, dll
 
-	// Output untuk nilai default dari variabel tanpa nilai
-	fmt.Println("Ini akan menghasilkan default string kosong yaitu: ", a)
-	fmt.Println("Ini akan menghasilkan default 0 yaitu: ", b)
-	fmt.Println("Ini akan menghasilkan default false yaitu: ", c)
+	// Deklarasi multi-variabel dengan tipe otomatis
+	var x, y, z = "lets go", 1, true // x: string, y: int, z: bool bisa juga dengan shorthand x, y, z := 1, 2, 5
 
-	// DEKLARASI MULTIPLE VARIABEL
-	fmt.Println("// DEKLARASI MULTIPLE VARIABEL")
-	// Deklarasi beberapa variabel dalam satu baris, tipe data harus sudah diketahui
-	var d, e, f int = 4, 5, 6
-	var cityFrom, cityTo, datePicker string = "Toraja", "Makassar", "12 Januari"
+	// Deklarasi variabel tanpa nilai (default value diberikan oleh Go)
+	var a string // Tipe string, nilai default adalah "" (kosong)
+	var b int    // Tipe int, nilai default adalah 0
+	var c bool   // Tipe bool, nilai default adalah false
 
-	// Output untuk beberapa variabel yang dideklarasikan sekaligus
-	fmt.Println(d, e, f)
-	fmt.Println("I think you're from ", cityFrom, "and after meeting you go to ", cityTo, "on ", datePicker)
-
-	// Deklarasi variabel dengan tipe data dinamis, Go akan mendeteksi tipe datanya secara otomatis
-	var myHobby, ranking, isWinner = "idk", 1, true
-
-	// Output untuk memeriksa tipe data variabel
-	fmt.Println("Tipe data dari myHobby adalah: ", reflect.TypeOf(myHobby), "yaitu ", myHobby)
-	fmt.Println("Tipe data dari ranking adalah: ", reflect.TypeOf(ranking), "yaitu ", ranking)
-	fmt.Println("Tipe data dari isWinner adalah: ", reflect.TypeOf(isWinner), "yaitu ", isWinner)
-
-	// DEKLARASI MULTIPLE VARIABEL DALAM BLOK
-	fmt.Println("// DEKLARASI MULTIPLE VARIABEL DALAM BLOK")
-	// Output beberapa variabel dalam satu baris
-	fmt.Println("Hi, it's me", fullName, "age", ages, "if you see", isHandsome, "that means I am handsome", "and my height is", height)
+	// Menampilkan hasil deklarasi variabel
+	fmt.Println("Deklarasi tanpa tipe data:", stringData, booleanData, intData)
+	fmt.Println("Deklarasi dengan tipe data:", tipeString, tipeBoolean, tipeInteger)
+	fmt.Println("Deklarasi dengan shorthand:", tipeShort)
+	fmt.Println("Deklarasi dengan multi variabel:", x, y, z)
+	fmt.Println("Deklarasi dengan grup global:", fullName, ages, isHandsome, height)
+	fmt.Println("Deklarasi tanpa nilai:", a, b, c)
 }

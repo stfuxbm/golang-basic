@@ -1,17 +1,33 @@
-// Go adalah bahasa pemrograman yang bersifat compiled, seperti halnya file exe di Windows.
-// Misalnya, ketika kita menjalankan perintah 'go build' pada Windows, hasilnya adalah file .exe yang sesuai dengan sistem operasi Windows.
-// Begitu juga untuk sistem operasi lainnya, seperti macOS, yang menghasilkan file dengan ekstensi .dmg.
-// Oleh karena itu, hasil akhir dari pengembangan aplikasi Go di production adalah file yang sudah dikompilasi.
+package main
 
-package main // Deklarasi package 'main', yang wajib ada di program Go
+import "fmt" // Paket untuk operasi input/output seperti Println
 
-import "fmt" // Mengimpor package 'fmt' untuk memudahkan input-output (I/O), seperti mencetak output ke konsol
-
-// Fungsi utama 'main' adalah tempat di mana program dieksekusi
 func main() {
-	// Pernyataan yang akan dieksekusi untuk mencetak output ke konsol
-	fmt.Println("hello world")          // Menampilkan "hello world"
-	fmt.Println("my name is Braiyen")   // Menampilkan "my name is Braiyen"
-	fmt.Println("i am learning golang") // Menampilkan "i am learning golang"
-	fmt.Println("hell ya !")            // Menampilkan "hell ya !"
+	// Deklarasi variabel tanpa tipe data eksplisit
+	var a = "hello world"
+	// Penjelasan: Variabel `a` dideklarasikan menggunakan `var` tanpa tipe eksplisit  type inference (inferensi tipe).
+	// Golang otomatis mengenali tipe data sebagai `string` karena nilai awalnya berupa teks.
+
+	// Deklarasi variabel dengan tipe data string secara eksplisit
+	var x string = "hello world"
+	// Penjelasan: Variabel `x` dideklarasikan dengan tipe `string` secara eksplisit
+	// dan langsung diberi nilai "hello world".
+
+	// Deklarasi variabel dengan shorthand assignment
+	y := "hello World"
+	// Penjelasan: Variabel `y` dideklarasikan menggunakan shorthand `:=`.
+	// Tipe data ditentukan secara otomatis berdasarkan nilai yang diberikan.
+
+	// Deklarasi variabel menggunakan blok `var`
+	var (
+		z = "hello world"
+	)
+	// Penjelasan: Variabel `z` dideklarasikan dalam blok `var`.
+	// Tidak disebutkan tipe datanya secara eksplisit, tetapi Golang secara otomatis
+	// mengenali tipe data sebagai `string` karena nilai yang diberikan.
+
+	// Output: Mencetak semua variabel ke konsol
+	fmt.Println(a, x, y, z)
+	// Penjelasan: `fmt.Println` mencetak nilai `a`, `x`, `y`, dan `z` ke konsol.
+	// Output akan dipisahkan secara otomatis oleh spasi.
 }
