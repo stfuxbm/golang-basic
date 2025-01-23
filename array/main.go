@@ -4,7 +4,8 @@ import "fmt"
 
 /*
 Array adalah kumpulan data bertipe sama yang disimpan dalam satu variabel.
-Array memiliki panjang tetap yang harus ditentukan saat deklarasi, kecuali menggunakan `[...]` yang otomatis menghitung panjang berdasarkan elemen awal.
+Array memiliki panjang tetap yang harus ditentukan saat deklarasi,
+kecuali menggunakan `[...]` yang otomatis menghitung panjang berdasarkan elemen awal.
 */
 func main() {
 
@@ -45,7 +46,7 @@ func main() {
 		fmt.Printf("Indeks: %d, Nilai: %d\n", i, value)
 	}
 
-	// Abaikan indeks menggunakan _
+	// Abaikan indeks menggunakan _,
 	for _, value := range power {
 		fmt.Printf("Nilai (tanpa indeks): %d\n", value)
 	}

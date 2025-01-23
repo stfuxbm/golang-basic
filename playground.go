@@ -1,21 +1,33 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
+
+/*
+Fungsi adalah sekumpulan blok kode yang dibungkus dengan nama tertentu.
+Penerapan fungsi yang tepat akan menjadikan kode lebih modular dan juga DRY (Don't Repeat Yourself).
+*/
 
 func main() {
 
-	// ini adalah array
-	var x = [4]string{
-		"hai",
-		"halo",
-		"yes",
+	var brands = []string{
+		"Lenovo",
+		"Samsuung",
 	}
-	fmt.Println(x[1:3])
+	// Memanggil fungsi untuk menampilkan data dengan motode void function
+	showBrands("hello", brands)
 
-	// ini adalah slice
-	var z = []int{
-		1, 2,
-	}
-	fmt.Println(z[1])
-	fmt.Println(z[0:1])
+	// memanggil fungsi untuk menampilkan data dengan metode return value
+
 }
+
+// Penerapan Fungsi dengan simple atau bias di sebut void function
+func showBrands(message string, listBrands []string) {
+	// Menggabungkan elemen-elemen dalam slice dengan spasi
+	var brandName = strings.Join(listBrands, " ")
+	fmt.Println(message, brandName)
+}
+
+// Penerapan Fungsi dengan Return Value
