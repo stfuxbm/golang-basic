@@ -20,26 +20,39 @@ Perbedaan Slice dan Array:
 */
 
 func main() {
-	// Contoh deklarasi dan penggunaan array
-	var x = []string{
-		"hai",
-		"halo",
-		"yes",
-		"no",
-	}
-	// Menggunakan slicing pada array
-	fmt.Println("Array slicing [0:3]:", x[0:3])
+	// Membuat slice integer
+	x := []int{1, 2, 3, 4, 5}
 
-	// Contoh deklarasi dan penggunaan slice
-	var z = []int{
-		1, 2, 3, 4,
-	}
-	// Menampilkan elemen slice
-	fmt.Println("Elemen pertama slice:", z[0])
-	fmt.Println("Elemen kedua slice:", z[1])
-	// Slicing pada slice
-	fmt.Println("Slice slicing [0:1]:", z[0:1])
-	fmt.Println("Seluruh elemen slice:", z[:])
-	// Panjang slice
-	fmt.Println("Panjang slice:", len(z))
+	// Membuat slice string
+	a := []string{"Tom", "Hardy"}
+
+	// Menampilkan slice awal
+	fmt.Println("Slice x:", x)
+	fmt.Println("Slice a:", a)
+
+	// Mengubah elemen dalam slice
+	x[2] = 10
+	a[1] = "Holland" // Menghindari string kosong, bisa diisi string lain
+
+	fmt.Println("Setelah perubahan x[2]:", x)
+	fmt.Println("Setelah perubahan a:", a)
+
+	// Menambahkan elemen ke slice menggunakan append
+	x = append(x, 6, 7) // Tambahkan elemen baru
+	a = append(a, "Hardy")
+
+	fmt.Println("Setelah append x:", x)
+	fmt.Println("Setelah append a:", a)
+
+	// Memotong slice (mengubah panjangnya)
+	x = x[:4] // Mengambil hanya 4 elemen pertama
+	fmt.Println("Slice x setelah dipotong:", x)
+
+	// Copy slice
+	originalSlice := []int{100, 200, 300}          // Slice sumber
+	copiedSlice := make([]int, len(originalSlice)) // Buat slice dengan panjang yang sama
+	copy(copiedSlice, originalSlice)               // Salin data dari originalSlice ke copiedSlice
+
+	fmt.Println("Original slice:", originalSlice)
+	fmt.Println("Copied slice:", copiedSlice)
 }
