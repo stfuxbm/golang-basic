@@ -14,11 +14,11 @@ func main() {
 		fmt.Println(i)
 	}
 
-	// Nested loop: Mengkombinasikan merek dengan jenis perangkat
+	// Nested loop: Mengombinasikan merek dengan jenis perangkat
 	devices := [1]string{"Laptop"}
 	brands := [2]string{"Dell", "Lenovo"}
 
-	fmt.Println("Nested loop: Mengkombinasikan perangkat dan merek")
+	fmt.Println("Nested loop: Mengombinasikan perangkat dan merek")
 	for i := 0; i < len(devices); i++ {
 		for j := 0; j < len(brands); j++ {
 			fmt.Println(devices[i], brands[j])
@@ -35,28 +35,27 @@ func main() {
 	// Perulangan menggunakan `for range` dengan map
 	bestMovies := map[string]string{
 		"Aktor": "Tom Holland",
-		"Film":  "Spiderman",
+		"Film":  "Spider-Man",
 	}
 	fmt.Println("For range dengan map: Menampilkan pasangan key-value")
 	for key, value := range bestMovies {
 		fmt.Printf("%s: %s\n", key, value)
 	}
 
-	// perulangan break dan continue
-	fmt.Println("For range dengan break dan continue: Menampilkan dengan break dan continue")
-
+	// Perulangan dengan `break` dan `continue`
+	fmt.Println("Perulangan dengan break: Berhenti saat angka mencapai 5")
 	for i := 0; i <= 10; i++ {
 		if i == 5 {
-			break // stop jika sudah di temukan
+			break // Berhenti jika i sama dengan 5
 		}
-		fmt.Println("break berhenti di angka", i)
+		fmt.Println(i)
 	}
 
+	fmt.Println("Perulangan dengan continue: Melewati angka genap")
 	for j := 0; j <= 10; j++ {
 		if j%2 == 0 {
-			continue // melanjutkan jika sudah ketemu sampai batas angka yang di tentukan
+			continue // Melanjutkan ke iterasi berikutnya jika j adalah angka genap sampai batas angka yang di tentukan
 		}
-		fmt.Println("continue di", j)
+		fmt.Println(j)
 	}
-
 }
