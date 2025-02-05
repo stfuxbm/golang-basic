@@ -6,11 +6,11 @@
 ```bash
    go version
 ```
-Run a Go program:
+- Run a Go program:
 ```bash
   go run nama_program.go
 ```
-Compile the program into an executable:d
+- Compile the program into an executable:d
 ```bash
  go build nama_program.go
 ```
