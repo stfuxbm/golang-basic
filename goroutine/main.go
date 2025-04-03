@@ -1,59 +1,57 @@
-package main
-
 /*
-Goroutine di Go sangat berguna dalam berbagai situasi yang membutuhkan concurrency (eksekusi bersamaan) atau paralelisme (pekerjaan yang dibagi di beberapa core atau thread),
-tanpa membuat aplikasi menjadi kompleks atau memakan banyak sumber daya.
+Goroutine: fungsi yang berjalan secara konkuren (bersamaan).
+Digunakan untuk menjalankan tugas paralel tanpa memblokir program utama,
+ideal untuk I/O, tugas latar belakang, dan meningkatkan responsivitas.
+Gunakan kata kunci 'go' untuk menjalankannya.
 */
+package main
 
 import (
 	"fmt"
 	"time"
 )
 
-// Fungsi LoopingPrint mencetak pesan sebanyak 'number' kali
+// Cetak pesan berulang kali.
 func LoopingPrint(number int, message string) {
 	for i := 0; i < number; i++ {
-		fmt.Println(i+1, message) // Mencetak nomor urut dan pesan
+		fmt.Println(i+1, message) // Cetak nomor dan pesan.
 	}
 }
 
-// Struktur Person yang memiliki dua field: ID dan Name
+// Struktur untuk data person.
 type Person struct {
 	ID   int
 	Name string
 }
 
-// Metode SayMyName mengembalikan string yang berisi nama orang
+// Method untuk mengembalikan nama (duplikat).
 func (p Person) SayMyName() string {
 	return p.Name + " dari " + p.Name
 }
 
-// Metode CallMe mencetak ID dan nama orang
+// Method untuk mencetak ID dan nama.
 func (p Person) CallMe() {
 	fmt.Println(p.ID, p.Name)
 }
 
 func main() {
-	// Membuat objek Person dengan ID 123 dan nama "Jhon Pardy"
-	person := Person{
-		ID:   123,
-		Name: "Jhon Pardy",
-	}
+	// Buat objek Person.
+	person := Person{ID: 123, Name: "Jhon Pardy"}
 
-	// Memulai goroutine untuk mencetak pesan "Yes" sebanyak 5 kali
+	// Jalankan LoopingPrint sebagai goroutine.
 	go LoopingPrint(5, "Yes")
 
-	// Memulai goroutine untuk mencetak ID dan nama orang
+	// Jalankan CallMe sebagai goroutine.
 	go person.CallMe()
 
-	// Memulai goroutine untuk mengembalikan string nama orang
+	// Jalankan SayMyName sebagai goroutine (cetak hasilnya).
 	go func() {
 		fmt.Println(person.SayMyName())
 	}()
 
-	// Memberi waktu untuk goroutine selesai sebelum program berakhir
+	// Tunggu sebentar agar goroutine selesai.
 	time.Sleep(time.Second)
 
-	// Mencetak pesan "Done" setelah semua goroutine selesai
+	// Selesai.
 	fmt.Println("Done")
 }

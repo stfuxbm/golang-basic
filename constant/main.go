@@ -1,37 +1,37 @@
+/*
+Konstanta: variabel dengan nilai tetap setelah deklarasi.
+Digunakan untuk nilai yang tidak boleh berubah sepanjang program,
+seperti nilai matematika (pi), konfigurasi, atau string literal yang sering dipakai.
+Deklarasikan dengan 'const'.
+*/
 package main
 
 import "fmt"
 
 func main() {
-	/*
-		Konstanta adalah jenis variabel yang nilainya tidak bisa diubah setelah dideklarasikan.
-		Inisialisasi nilai konstanta hanya dilakukan sekali saja di awal, setelah itu variabel tidak bisa diubah nilainya.
-		Konstanta dalam Go tidak bisa dideklarasikan dengan shorthand assignment `:=`.
-		Konstanta hanya bisa dideklarasikan dengan `const`.
-	*/
+	// Konstanta integer.
+	const x int = 3
 
-	// Deklarasi konstanta dengan tipe data eksplisit
-	const x int = 3         // Konstanta dengan tipe eksplisit int
-	const y string = "halo" // Konstanta dengan tipe eksplisit string
-	const z bool = true     // Konstanta dengan tipe eksplisit bool
+	// Konstanta string.
+	const y string = "halo"
 
-	// Menampilkan nilai-nilai konstanta
+	// Konstanta boolean.
+	const z bool = true
+
 	fmt.Println(x, y, z)
 
-	// Deklarasi Multi Konstanta dalam satu blok
+	// Beberapa konstanta dalam satu blok.
 	const (
-		a string = "hai" // Konstanta string
-		b int    = 2     // Konstanta int
-		c bool   = false // Konstanta bool
-		d        = 3.14  // Konstanta float64 secara otomatis ditentukan oleh Go
+		a string = "hai"
+		b int    = 2
+		c bool   = false
+		d        = 3.14 // float otomatis
 	)
 
-	// Menampilkan nilai-nilai konstanta
 	fmt.Println(a, b, c)
 
-	// Deklarasi Multiple Konstanta dalam satu baris dengan tipe otomatis
-	const q, w, r = 1, 2, 3 // Semua konstanta ini akan bertipe `int` secara otomatis
+	// Beberapa konstanta dalam satu baris (tipe otomatis).
+	const q, w, r = 1, 2, 3 // Semua int
 
-	// Menampilkan nilai-nilai konstanta yang dideklarasikan dalam satu baris
 	fmt.Println(q, w, r)
 }

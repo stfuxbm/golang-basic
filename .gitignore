@@ -20,6 +20,8 @@ go.work
 *.swo
 *.bak
 *.tmp
+.sublime-project
+.sublime-workspace
 
 # Logs
 *.log
@@ -27,3 +29,18 @@ go.work
 # OS generated files
 .DS_Store
 Thumbs.db
+._*
+
+# Local configuration files
+.env
+
+# Build output directories
+build/
+dist/
+
+# Application artifacts
+*.app
+
+# Other temporary/backup files
+*.orig
+*.pyc

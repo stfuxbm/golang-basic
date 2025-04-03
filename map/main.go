@@ -1,72 +1,27 @@
+/*
+Variabel: tempat menyimpan data dengan nama.
+Digunakan untuk menyimpan nilai yang bisa berubah selama program berjalan.
+Deklarasi menggunakan 'var' atau ':=', tipe data bisa eksplisit atau otomatis.
+*/
 package main
 
 import "fmt"
 
-/*
-   Map adalah struktur data dalam Golang yang menyimpan pasangan key-value.
-   - Key bersifat unik dan digunakan untuk mengakses value terkait.
-   - Map sangat cepat dalam operasi pencarian, penambahan, dan penghapusan data.
-*/
-
 func main() {
-	// Membuat map dengan short-hand declaration
-	actor := map[string]string{
-		"Name": "Tom Hardy",
-		"Jobs": "Actor",
-	}
+	// Deklarasi tanpa tipe eksplisit (inferensi).
+	var a = "hello" // 'a' otomatis jadi string.
 
-	movie := map[int]string{
-		2024: "Venom",
-		2015: "Legend",
-	}
+	// Deklarasi dengan tipe eksplisit.
+	var b string = "world"
 
-	fmt.Println(actor)
-	fmt.Println("Nama aktor:", actor["Name"]) // Mengakses nilai menggunakan key
-	fmt.Println(movie)
-	fmt.Println("Film tahun 2015:", movie[2015])
+	// Deklarasi singkat (hanya di dalam fungsi).
+	c := 10 // 'c' otomatis jadi integer.
 
-	// Membuat map menggunakan function make
-	netWorth := make(map[int]string)
-	netWorth[2024] = "$55 million"
-	fmt.Println("Kekayaan bersih tahun 2024:", netWorth[2024])
+	// Deklarasi banyak variabel dalam satu blok.
+	var (
+		d = true
+		e int
+	)
 
-	// Menampilkan jumlah elemen dalam map
-	fmt.Println("Jumlah elemen di actor:", len(actor))
-	fmt.Println("Jumlah elemen di movie:", len(movie))
-
-	// Membuat map kosong
-	emptyMapShortHand := map[string]int{} // Menggunakan short-hand declaration
-	emptyMapMake := make(map[string]bool) // Menggunakan function make
-
-	fmt.Println("Map kosong dengan shorthand:", emptyMapShortHand)
-	fmt.Println("Map kosong dengan make:", emptyMapMake)
-
-	// Menambahkan nilai ke dalam map
-	brand := make(map[string]bool)
-	brand["isGoodProduct"] = false
-	brand["isGoodToBuy"] = true
-	brand["isAwesome"] = true
-	fmt.Println("Brand setelah penambahan nilai:", brand)
-
-	// Mengubah nilai dalam map
-	brand["isGoodToBuy"] = false
-	fmt.Println("Brand setelah perubahan nilai:", brand)
-
-	// Menghapus nilai dari map
-	delete(brand, "isGoodProduct")
-	fmt.Println("Brand setelah penghapusan nilai:", brand)
-
-	// Map bersifat reference type
-	/*
-	   Map dalam Go adalah reference type, artinya:
-	   - Jika sebuah map diberikan ke variabel lain, kedua variabel akan merujuk ke data yang sama.
-	   - Perubahan pada salah satu variabel akan berdampak pada yang lain.
-	*/
-	fmt.Println("Map sebelum reference assignment:", brand)
-
-	newBrand := brand // Menggunakan referensi yang sama
-	newBrand["isAwesome"] = false
-
-	fmt.Println("Map setelah reference assignment:", brand)
-	fmt.Println("NewBrand setelah mengubah nilai:", newBrand)
+	fmt.Println(a, b, c, d, e)
 }

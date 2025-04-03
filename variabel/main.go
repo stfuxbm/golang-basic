@@ -1,45 +1,46 @@
+/*
+Variabel: tempat menyimpan data dengan nama.
+Digunakan untuk menyimpan nilai yang bisa diubah selama program berjalan.
+Deklarasi lokal di dalam fungsi, global di luar fungsi.
+*/
 package main
 
 import "fmt"
 
-// Deklarasi variabel global secara grup (untuk digunakan di seluruh paket)
-/*
-Jika variabel tersebut perlu diakses oleh beberapa fungsi dalam program, variabel global lebih tepat digunakan.
-*/
+// Variabel global (di luar fungsi main).
 var (
-	fullName       = "Jhon Due" // Tipe data string
-	ages           = 29         // Tipe data int
-	isHandsome     = true       // Tipe data bool
-	height     int = 171        // Tipe data int dengan nilai eksplisit
+	fullName       = "Jhon Due" // string
+	ages           = 29         // int
+	isHandsome     = true       // bool
+	height     int = 171        // int (eksplisit)
 )
 
 func main() {
-	// Deklarasi variabel tanpa tipe data eksplisit (type inference)
-	var stringData = "ini string data" // Tipe otomatis: string
-	var booleanData = true             // Tipe otomatis: bool
-	var intData = 7                    // Tipe otomatis: int
+	// Deklarasi lokal tanpa tipe eksplisit (inferensi).
+	var stringData = "ini string" // string
+	var booleanData = true        // bool
+	var intData = 7               // int
 
-	// Deklarasi variabel dengan tipe data eksplisit
-	var tipeString string = "dengan tipe data" // Tipe eksplisit string
-	var tipeBoolean bool = false               // Tipe eksplisit bool
-	var tipeInteger int = 1                    // Tipe eksplisit int
+	// Deklarasi lokal dengan tipe eksplisit.
+	var tipeString string = "tipe string" // string
+	var tipeBoolean bool = false          // bool
+	var tipeInteger int = 1               // int
 
-	// Deklarasi menggunakan shorthand assignment (tipe otomatis)
-	tipeShort := 5 // Tipe otomatis ditentukan oleh Go, bisa int, float, string, dll
+	// Deklarasi singkat lokal (hanya di dalam fungsi).
+	tipeShort := 5 // int
 
-	// Deklarasi multi-variabel dengan tipe otomatis
-	var x, y, z = "lets go", 1, true // x: string, y: int, z: bool bisa juga dengan shorthand x, y, z := 1, 2, 5
+	// Deklarasi banyak variabel lokal.
+	var x, y, z = "go", 1, true // string, int, bool
 
-	// Deklarasi variabel tanpa nilai (default value diberikan oleh Go)
-	var a string // Tipe string, nilai default adalah "" (kosong)
-	var b int    // Tipe int, nilai default adalah 0
-	var c bool   // Tipe bool, nilai default adalah false
+	// Deklarasi tanpa nilai (nilai default).
+	var a string // "" (string kosong)
+	var b int    // 0
+	var c bool   // false
 
-	// Menampilkan hasil deklarasi variabel
-	fmt.Println("Deklarasi tanpa tipe data:", stringData, booleanData, intData)
-	fmt.Println("Deklarasi dengan tipe data:", tipeString, tipeBoolean, tipeInteger)
-	fmt.Println("Deklarasi dengan shorthand:", tipeShort)
-	fmt.Println("Deklarasi dengan multi variabel:", x, y, z)
-	fmt.Println("Deklarasi dengan grup global:", fullName, ages, isHandsome, height)
-	fmt.Println("Deklarasi tanpa nilai:", a, b, c)
+	fmt.Println("Tanpa tipe:", stringData, booleanData, intData)
+	fmt.Println("Dengan tipe:", tipeString, tipeBoolean, tipeInteger)
+	fmt.Println("Shorthand:", tipeShort)
+	fmt.Println("Multi var:", x, y, z)
+	fmt.Println("Global:", fullName, ages, isHandsome, height)
+	fmt.Println("Default:", a, b, c)
 }

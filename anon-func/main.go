@@ -1,30 +1,31 @@
+/*
+Fungsi anonim: fungsi tanpa nama.
+Bisa langsung dieksekusi atau disimpan di variabel.
+Berguna untuk fungsi kecil, callback, goroutine.
+*/
 package main
 
 import "fmt"
 
-/*
-Anonymous function adalah fungsi tanpa nama yang bisa langsung dieksekusi atau disimpan dalam variabel.
-Anonymous function sangat berguna dalam callback, goroutine, atau kode yang hanya digunakan sekali.
-*/
-
 func main() {
 
-	// Anonymous Function Sederhana
-	func() {
-		fmt.Println("Ini contoh dasar")
+	// Fungsi anonim sederhana, langsung jalan.
+	func() { // Definisikan.
+		fmt.Println("Ini contoh dasar") // Lakukan aksi.
+	}() // Langsung jalankan.
 
-	}()
+	fmt.Println() // Spasi output.
 
-	// Anonymous Function dengan Parameter
-	func(name string) {
-		fmt.Println("Hai", name)
+	// Fungsi anonim dengan parameter, langsung jalan.
+	func(name string) { // Terima nama.
+		fmt.Println("Hai", name) // Sapa nama.
+	}("Jhon") // Panggil dengan nama.
 
-	}("Jhon")
+	fmt.Println() // Spasi output.
 
-	// Anonymous Function yang Disimpan dalam Variabel
-	great := func(country string) string {
-		return "Hai," + country
+	// Fungsi anonim disimpan di variabel.
+	great := func(country string) string { // Terima negara, kembalikan sapaan.
+		return "Hai, " + country // Buat sapaan.
 	}
-	fmt.Print(great("Jhon"))
-
+	fmt.Println(great("Jhon")) // Panggil via variabel.
 }

@@ -1,58 +1,45 @@
+/*
+Slice: abstraksi di atas array yang ukurannya bisa berubah.
+Digunakan untuk koleksi data sejenis yang ukurannya tidak pasti atau perlu diubah.
+Slice mereferensikan sebagian atau seluruh array yang mendasarinya.
+*/
 package main
 
 import "fmt"
 
-/*
-Perbedaan Slice dan Array:
-
-1. **Array**:
-   - Memiliki jumlah elemen tetap yang harus didefinisikan saat deklarasi.
-   - Ukurannya tidak dapat diubah setelah didefinisikan.
-   - Contoh deklarasi array:
-     var arr = [3]int{1, 2, 3}
-
-2. **Slice**:
-   - Tidak memerlukan jumlah elemen yang didefinisikan saat deklarasi.
-   - Ukurannya dinamis, dapat bertambah atau berkurang sesuai kebutuhan.
-   - Slice adalah referensi ke array di belakang layar (backing array).
-   - Contoh deklarasi slice:
-     var slc = []int{1, 2, 3}
-*/
-
 func main() {
-	// Membuat slice integer
-	x := []int{1, 2, 3, 4, 5}
+	// Membuat slice integer.
+	x := []int{1, 2, 3, 4, 5} // Tidak perlu ukuran awal.
 
-	// Membuat slice string
+	// Membuat slice string.
 	a := []string{"Tom", "Hardy"}
 
-	// Menampilkan slice awal
 	fmt.Println("Slice x:", x)
 	fmt.Println("Slice a:", a)
 
-	// Mengubah elemen dalam slice
+	// Mengubah elemen slice.
 	x[2] = 10
-	a[1] = "Holland" // Menghindari string kosong, bisa diisi string lain
+	a[1] = "Holland"
 
-	fmt.Println("Setelah perubahan x[2]:", x)
-	fmt.Println("Setelah perubahan a:", a)
+	fmt.Println("x[2] diubah:", x)
+	fmt.Println("a diubah:", a)
 
-	// Menambahkan elemen ke slice menggunakan append
-	x = append(x, 6, 7) // Tambahkan elemen baru
+	// Menambah elemen ke slice (membuat slice baru).
+	x = append(x, 6, 7)
 	a = append(a, "Hardy")
 
-	fmt.Println("Setelah append x:", x)
-	fmt.Println("Setelah append a:", a)
+	fmt.Println("x setelah append:", x)
+	fmt.Println("a setelah append:", a)
 
-	// Memotong slice (mengubah panjangnya)
-	x = x[:4] // Mengambil hanya 4 elemen pertama
-	fmt.Println("Slice x setelah dipotong:", x)
+	// Memotong slice (mengubah panjang).
+	x = x[:4] // Ambil 4 elemen pertama.
+	fmt.Println("x dipotong:", x)
 
-	// Copy slice
-	originalSlice := []int{100, 200, 300}          // Slice sumber
-	copiedSlice := make([]int, len(originalSlice)) // Buat slice dengan panjang yang sama
-	copy(copiedSlice, originalSlice)               // Salin data dari originalSlice ke copiedSlice
+	// Menyalin slice.
+	originalSlice := []int{100, 200, 300}
+	copiedSlice := make([]int, len(originalSlice)) // Buat slice tujuan.
+	copy(copiedSlice, originalSlice)               // Salin data.
 
-	fmt.Println("Original slice:", originalSlice)
-	fmt.Println("Copied slice:", copiedSlice)
+	fmt.Println("Original:", originalSlice)
+	fmt.Println("Copied:", copiedSlice)
 }

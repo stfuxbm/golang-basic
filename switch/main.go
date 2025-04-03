@@ -1,3 +1,8 @@
+/*
+Switch Statement: alternatif untuk if-else if berantai.
+Digunakan untuk memilih satu blok kode untuk dieksekusi berdasarkan nilai variabel.
+Berguna saat membandingkan satu variabel dengan banyak kemungkinan nilai.
+*/
 package main
 
 import (
@@ -7,38 +12,29 @@ import (
 )
 
 func main() {
-	// Mendefinisikan nama penyanyi dan mengubahnya menjadi huruf kecil untuk perbandingan yang lebih mudah
+	// Contoh switch pada string.
 	singer := "Blake shelton"
-	singer = strings.ToLower(singer) // Mengonversi nama penyanyi ke huruf kecil agar perbandingan tidak terpengaruh huruf besar
+	singerLower := strings.ToLower(singer) // Ubah ke huruf kecil.
 
-	// Menggunakan switch untuk mengecek tipe penyanyi berdasarkan nama yang telah diubah menjadi huruf kecil
-	switch singer {
-	case "blake shelton":
-		// Jika penyanyi adalah Blake Shelton, output yang diberikan adalah "Old Singer"
+	switch singerLower {
+	case "blake shelton": // Jika singerLower adalah "blake shelton".
 		fmt.Println("Old Singer")
-	case "morgan wallen":
-		// Jika penyanyi adalah Morgan Wallen, output yang diberikan adalah "Modern Country"
+	case "morgan wallen": // Jika singerLower adalah "morgan wallen".
 		fmt.Println("Modern Country")
-	default:
-		// Jika penyanyi tidak sesuai dengan yang ada di case, output yang diberikan adalah "not country boy"
+	default: // Jika tidak ada case yang cocok.
 		fmt.Println("Not a country boy")
 	}
 
-	// Mendapatkan hari ini untuk menentukan waktu dan aktivitas berdasarkan hari
+	// Contoh switch pada tipe lain (hari).
 	today := time.Now()
-	day := today.Weekday().String() // Mendapatkan nama hari dalam format string
+	day := today.Weekday().String() // Dapatkan nama hari.
 
-	// Menggunakan switch untuk memberikan pesan yang sesuai berdasarkan hari
 	switch day {
-	case "Tuesday", "Monday":
-		// Jika hari adalah Senin atau Selasa, menunjukkan waktu kerja yang sibuk
+	case "Tuesday", "Monday": // Jika hari Senin atau Selasa.
 		fmt.Println("Waktu kerja sibuk")
-	case "Friday":
-		// Jika hari adalah Jumat, menunjukkan libur panjang
+	case "Friday": // Jika hari Jumat.
 		fmt.Println("Libur panjang")
-	default:
-		// Untuk hari selain yang disebutkan, output adalah "kiamat"
+	default: // Untuk hari lainnya.
 		fmt.Println("Kiamat")
 	}
-
 }

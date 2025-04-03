@@ -1,50 +1,48 @@
+/*
+Interface: kumpulan definisi method tanpa implementasi.
+Menentukan kontrak perilaku yang harus dipenuhi oleh tipe data lain.
+Digunakan untuk mencapai polimorfisme dan fleksibilitas kode.
+Tipe yang mengimplementasikan interface harus memiliki semua method yang didefinisikan.
+*/
 package main
 
 import (
 	"fmt"
 )
 
-// ================= INTERFACE =================
-
-// Interface HasName: Digunakan untuk mendapatkan informasi seseorang
-// Struct yang mengimplementasikan interface ini harus memiliki kedua method ini.
+// Interface untuk informasi nama.
 type HasName interface {
-	GetPeopleInformation() string
-	GetPeopleIdentify() string
+	GetPeopleInformation() string // Mendapatkan info orang.
+	GetPeopleIdentify() string    // Mendapatkan identitas orang.
 }
 
-// Interface Role: Digunakan untuk mendapatkan peran seseorang
+// Interface untuk peran.
 type Role interface {
-	GetRole() string
+	GetRole() string // Mendapatkan peran.
 }
 
-// Interface EmbedInterface: Menggabungkan beberapa interface
-// Struct yang mengimplementasikan interface ini harus memiliki semua method dari HasName dan Role
+// Interface gabungan dari HasName dan Role.
 type EmbedInterface interface {
-	ID() string
-	HasName // Meng-embed interface HasName
-	Role    // Meng-embed interface Role
+	ID() string // Mendapatkan ID.
+	HasName     // Embed interface HasName.
+	Role        // Embed interface Role.
 }
 
-// ================= STRUCT PERSON =================
-
-// Struct Person mengimplementasikan interface EmbedInterface
+// Struktur Person mengimplementasikan EmbedInterface.
 type Person struct {
-	IDValue string // ID dari orang tersebut
-	Name    string // Nama orang
-	Country string // Negara asal
-	Sex     bool   // Jenis kelamin (true = Male, false = Female)
-	Role    string // Peran orang tersebut
+	IDValue string
+	Name    string
+	Country string
+	Sex     bool
+	Role    string
 }
 
-// ================= IMPLEMENTASI METHOD =================
-
-// Implementasi method GetPeopleInformation() dari interface HasName
+// Implementasi GetPeopleInformation untuk Person.
 func (p Person) GetPeopleInformation() string {
 	return p.Name + " dari " + p.Country
 }
 
-// Implementasi method GetPeopleIdentify() dari interface HasName
+// Implementasi GetPeopleIdentify untuk Person.
 func (p Person) GetPeopleIdentify() string {
 	if p.Sex {
 		return "Male"
@@ -52,19 +50,17 @@ func (p Person) GetPeopleIdentify() string {
 	return "Female"
 }
 
-// Implementasi method GetRole() dari interface Role
+// Implementasi GetRole untuk Person.
 func (p Person) GetRole() string {
 	return p.Role
 }
 
-// Implementasi method ID() dari interface EmbedInterface
+// Implementasi ID untuk Person.
 func (p Person) ID() string {
 	return p.IDValue
 }
 
-// ================= FUNGSI MENGGUNAKAN INTERFACE =================
-
-// Fungsi SayHello menerima parameter dengan interface EmbedInterface
+// Fungsi menerima interface EmbedInterface.
 func SayHello(e EmbedInterface) {
 	fmt.Println("Halo", e.GetPeopleInformation())
 	fmt.Println("Identify as:", e.GetPeopleIdentify())
@@ -72,37 +68,24 @@ func SayHello(e EmbedInterface) {
 	fmt.Println("ID:", e.ID())
 }
 
-// ================= INTERFACE KOSONG =================
+// Interface kosong, bisa menerima tipe data apa pun (mirip 'any').
+type ExampleInterfaceEmpty interface{}
 
-// Interface kosong dapat menerima nilai dengan tipe data apa pun.
-type ExampleInterfaceEmpty interface{} // Bisa juga menggunakan `any` di Go 1.18+
-
-// Fungsi untuk menampilkan nilai dari interface kosong
+// Fungsi menerima interface kosong.
 func CallExampleInterfaceEmpty(e ExampleInterfaceEmpty) {
 	fmt.Println("Interface Empty Value:", e)
 }
 
-// ================= FUNGSI UTAMA (MAIN) =================
-
 func main() {
-	// Membuat objek dari struct Person
-	person := Person{
-		IDValue: "12345",
-		Name:    "Tom Hardy",
-		Country: "England",
-		Sex:     true,
-		Role:    "Actor",
-	}
+	// Membuat objek Person.
+	person := Person{IDValue: "12345", Name: "Tom Hardy", Country: "England", Sex: true, Role: "Actor"}
 
-	// Memanggil fungsi SayHello() dengan objek person
+	// Memanggil fungsi dengan interface.
 	SayHello(person)
 
-	fmt.Println("\n=== Contoh Penggunaan Interface Kosong ===")
-
-	// Memanggil fungsi CallExampleInterfaceEmpty() dengan berbagai tipe data
-	CallExampleInterfaceEmpty(true)                                       // Boolean
-	CallExampleInterfaceEmpty("John")                                     // String
-	CallExampleInterfaceEmpty(123)                                        // Integer
-	CallExampleInterfaceEmpty([]string{"Actor", "Musician", "President"}) // Slice
-
+	fmt.Println("\n=== Contoh Interface Kosong ===")
+	CallExampleInterfaceEmpty(true)
+	CallExampleInterfaceEmpty("John")
+	CallExampleInterfaceEmpty(123)
+	CallExampleInterfaceEmpty([]string{"Actor", "Musician", "President"})
 }
