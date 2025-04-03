@@ -2,29 +2,54 @@ package main
 
 import "fmt"
 
-/*
-Pointer adalah reference atau alamat memori.
-Variabel pointer berarti variabel yang berisi alamat memori suatu nilai.
+// Struct Person
+type Person struct {
+	Name    string
+	Age     int
+	Country string
+}
 
-Variabel biasa bisa diambil nilai pointernya, caranya dengan menambahkan tanda ampersand (&) tepat sebelum nama variabel. Metode ini disebut dengan referencing.
-Dan sebaliknya, nilai asli variabel pointer juga bisa diambil, dengan cara menambahkan tanda asterisk (*) tepat sebelum nama variabel. Metode ini disebut dengan dereferencing.
-*/
+// Method untuk mengubah umur
+func (p *Person) ChangeAge(newAge int) {
+	p.Age = newAge
+}
+
+// Method untuk mengubah nama
+func (p *Person) ChangeName(newName string) {
+	p.Name = newName
+}
+
+// Method untuk mengubah negara
+func (p *Person) ChangeCountry(newCountry string) {
+	p.Country = newCountry
+}
 
 func main() {
+	x := Person{
+		Name:    "Tom Hardy",
+		Age:     34,
+		Country: "England",
+	}
 
-	x := "Tom Hardy"
-	y := 021
+	fmt.Println("Sebelum:", x)
 
-	var fullName *string = &x
-	var phoneNumber *int = &y
+	// Mengubah nilai dengan pointer method
+	x.ChangeAge(40)
+	x.ChangeName("Chris Hemsworth")
+	x.ChangeCountry("Australia")
+	fmt.Println("Sesudah:", x)
 
-	fmt.Println(&x)
-	fmt.Println(fullName)
+	// Cek alamat memori
+	y := &x
+	fmt.Println("\nPointer y menunjuk ke x:", y)
+	fmt.Println("Nilai yang ditunjuk y:", y.Name, y.Age, y.Country)
 
-	fmt.Println(&y)
-	fmt.Println(phoneNumber)
+	// Menampilkan alamat memori dengan &
+	fmt.Println("\nAlamat Memori Struct x:", &x)
+	fmt.Println("Alamat Memori Name:", &x.Name)
+	fmt.Println("Alamat Memori Age:", &x.Age)
+	fmt.Println("Alamat Memori Country:", &x.Country)
 
-	x = "Jhon"
-	fmt.Println(&x)
-
+	// Menampilkan nilai struct melalui pointer y
+	fmt.Println("\nNilai Struct melalui Pointer y:", *y)
 }
