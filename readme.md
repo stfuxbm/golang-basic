@@ -1,8 +1,8 @@
-## Welcome to the Golang Basic Repository!
+## Golang Basic Repository
 
 This repository is a basic guide for those of you who want to start learning or refresh your knowledge of the fundamentals of the Go (Golang) programming language.
 
-## How to Install Go: Follow These Steps
+## How to Install Go
 
 Before you start coding with Go, make sure Go is installed on your computer. Here's how:
 
