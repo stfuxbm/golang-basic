@@ -1,5 +1,3 @@
-// Web API sederhana menggunakan Go untuk CRUD data bahasa pemrograman.
-// Data disimpan di RAM (slice), cocok untuk belajar dasar-dasar HTTP handler dan JSON API.
 package main
 
 import (
@@ -8,16 +6,16 @@ import (
 	"net/http"
 )
 
-// Struct untuk representasi data bahasa pemrograman
+// Struct untuk data bahasa pemrograman
 type ProgrammingLanguage struct {
-	ID       string `json:"ID"`
-	Name     string `json:"Name"`
-	Founder  string `json:"Founder"`
-	Year     int    `json:"Year"`
-	Paradigm string `json:"Paradigm"`
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Founder  string `json:"founder"`
+	Year     int    `json:"year"`
+	Paradigm string `json:"paradigm"`
 }
 
-// Struct standar untuk format response JSON
+// Struct response JSON standar
 type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
@@ -25,7 +23,7 @@ type Response struct {
 	Code    int         `json:"code"`
 }
 
-// Slice sebagai "database" sementara di RAM
+// Slice sebagai database sementara (di RAM)
 var languages = []ProgrammingLanguage{
 	{"1", "Python", "Guido van Rossum", 1991, "Object-Oriented, Procedural"},
 	{"2", "C++", "Bjarne Stroustrup", 1985, "Object-Oriented, Procedural"},
@@ -33,165 +31,244 @@ var languages = []ProgrammingLanguage{
 	{"4", "JavaScript", "Brendan Eich", 1995, "Event-Driven, Functional"},
 }
 
-// Handler untuk GET semua bahasa pemrograman
-// Digunakan saat ingin menampilkan semua data
-func GetLanguages(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+// Konstanta pesan untuk response
+const (
+	MsgMethodNotAllowed = "Method Not Allowed"
+	MsgIDRequired       = "ID is required"
+	MsgIDAlreadyExists  = "ID already exists"
+	MsgIDNotFound       = "ID not found"
+	MsgInvalidJSON      = "Invalid JSON"
+	MsgLanguageAdded    = "Language added successfully"
+	MsgLanguageFound    = "Language found"
+	MsgLanguageList     = "List of programming languages"
+	MsgLanguageDeleted  = "Language deleted successfully"
+	MsgLanguageUpdated  = "Language updated successfully"
+)
 
-	if r.Method == "GET" {
-		// Kirim seluruh data language sebagai JSON
-		res := Response{true, languages, "List of programming languages", http.StatusOK}
-		json.NewEncoder(w).Encode(res)
-	} else {
-		// Method selain GET tidak diizinkan
-		res := Response{false, nil, "Method Not Allowed", http.StatusMethodNotAllowed}
-		json.NewEncoder(w).Encode(res)
-	}
+// writeJSON adalah helper function untuk mengirim response JSON dengan status code.
+// Biar nggak nulis berulang-ulang di tiap handler.
+func writeJSON(w http.ResponseWriter, statusCode int, resp Response) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	json.NewEncoder(w).Encode(resp)
 }
 
-// Handler untuk GET data berdasarkan ID
-// Digunakan saat ingin melihat detail 1 data berdasarkan ID
-func GetLanguagesById(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+// Handler GET semua bahasa pemrograman
+func GetLanguages(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method != "GET" {
-		res := Response{false, nil, "Method Not Allowed", http.StatusMethodNotAllowed}
-		json.NewEncoder(w).Encode(res)
+	// Kalau bukan GET, kirim response error "Method Not Allowed" (405)
+	if r.Method != http.MethodGet {
+
+		writeJSON(w, http.StatusMethodNotAllowed, Response{
+			false, nil, MsgMethodNotAllowed, http.StatusMethodNotAllowed,
+		})
+		return // untuk menghentikan logic yang nggak perlu,
+	}
+
+	// Ini ambil dari slice `languages` yang disimpan di RAM
+	writeJSON(w, http.StatusOK, Response{
+		true, languages, MsgLanguageList, http.StatusOK,
+	})
+}
+
+func GetLanguagesById(w http.ResponseWriter, r *http.Request) {
+	// Cek method HTTP, hanya izinkan GET
+	if r.Method != http.MethodGet {
+		// Jika method selain GET, kirim response "Method Not Allowed" (405)
+		writeJSON(w, http.StatusMethodNotAllowed, Response{
+			false, nil, MsgMethodNotAllowed, http.StatusMethodNotAllowed,
+		})
+		return // Hentikan eksekusi karena method tidak valid
+	}
+
+	// Ambil parameter "id" dari query string (contoh: /get-languages-byid?id=2)
+	id := r.URL.Query().Get("id")
+	// Validasi: jika ID kosong, kirim response error 400 (Bad Request)
+	if id == "" {
+		writeJSON(w, http.StatusBadRequest, Response{
+			false, nil, MsgIDRequired, http.StatusBadRequest,
+		})
 		return
 	}
 
-	// Ambil ID dari query string
-	id := r.URL.Query().Get("id")
-
-	// Cari ID di slice languages
+	// Loop semua data bahasa pemrograman yang ada di slice `languages`
 	for _, lang := range languages {
+		// Cek apakah ID dari data sama dengan ID dari query
 		if lang.ID == id {
-			// Kirim data jika ditemukan
-			res := Response{true, lang, "Language Found", http.StatusOK}
-			json.NewEncoder(w).Encode(res)
-			return
+			// Jika cocok, kirim response sukses dengan data bahasa tersebut
+			writeJSON(w, http.StatusOK, Response{
+				true, lang, MsgLanguageFound, http.StatusOK,
+			})
+			return // Hentikan proses setelah data ditemukan
 		}
 	}
 
-	// Jika tidak ditemukan
-	res := Response{false, nil, "ID Not Found", http.StatusNotFound}
-	json.NewEncoder(w).Encode(res)
+	// Jika tidak ditemukan setelah loop, kirim response "ID Not Found" (404)
+	writeJSON(w, http.StatusNotFound, Response{
+		false, nil, MsgIDNotFound, http.StatusNotFound,
+	})
 }
 
-// Handler untuk POST tambah data
-// Digunakan saat ingin menambahkan bahasa pemrograman baru
 func AddLanguages(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	if r.Method != "POST" {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-		return
+	// Validasi method, hanya izinkan POST
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, Response{
+			false, nil, MsgMethodNotAllowed, http.StatusMethodNotAllowed,
+		})
+		return // Stop eksekusi kalau bukan POST
 	}
 
-	// Decode body JSON menjadi struct
+	// Buat variabel untuk nampung data JSON yang dikirim oleh user
 	var newLang ProgrammingLanguage
+
+	// Decode JSON dari body request ke struct newLang
 	err := json.NewDecoder(r.Body).Decode(&newLang)
 	if err != nil {
-		http.Error(w, "JSON not valid", http.StatusBadRequest)
+		// Kalau JSON tidak valid (misalnya salah format), kirim error 400
+		writeJSON(w, http.StatusBadRequest, Response{
+			false, nil, MsgInvalidJSON, http.StatusBadRequest,
+		})
 		return
 	}
 
-	// Tambahkan data ke slice
+	// Validasi: Cek apakah ID sudah pernah digunakan (tidak boleh dobel)
+	for _, lang := range languages {
+		if lang.ID == newLang.ID {
+			// Kalau ID sudah ada, tolak dengan error 400
+			writeJSON(w, http.StatusBadRequest, Response{
+				false, nil, MsgIDAlreadyExists, http.StatusBadRequest,
+			})
+			return
+		}
+	}
+
+	// Jika ID aman, tambahkan data baru ke slice `languages`
 	languages = append(languages, newLang)
 
-	// Kirim response berhasil
-	res := Response{true, newLang, "Success add Data Language", http.StatusCreated}
-	json.NewEncoder(w).Encode(res)
+	// Kirim response berhasil (201 Created)
+	writeJSON(w, http.StatusCreated, Response{
+		true, newLang, MsgLanguageAdded, http.StatusCreated,
+	})
 }
 
-// Handler untuk DELETE data berdasarkan ID
-// Digunakan saat ingin menghapus data bahasa pemrograman berdasarkan ID
+// Handler DELETE berdasarkan ID (pakai ?id=xxx)
 func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	if r.Method != "DELETE" {
-		res := Response{false, nil, "Method Not Allowed", http.StatusMethodNotAllowed}
-		json.NewEncoder(w).Encode(res)
+	// Cek dulu apakah method-nya DELETE, kalau bukan, tolak!
+	if r.Method != http.MethodDelete {
+		writeJSON(w, http.StatusMethodNotAllowed, Response{
+			false, nil, MsgMethodNotAllowed, http.StatusMethodNotAllowed,
+		})
 		return
 	}
 
-	// Ambil ID dari query string
+	// Ambil query parameter 'id' dari URL (?id=123)
 	id := r.URL.Query().Get("id")
+
+	// Validasi: ID harus diisi, kalau kosong, kirim error
 	if id == "" {
-		res := Response{false, nil, "ID is required", http.StatusBadRequest}
-		json.NewEncoder(w).Encode(res)
+		writeJSON(w, http.StatusBadRequest, Response{
+			false, nil, MsgIDRequired, http.StatusBadRequest,
+		})
 		return
 	}
 
-	// Cari dan hapus data dari slice
+	// Loop slice `languages` untuk cari ID yang cocok
 	for i, lang := range languages {
 		if lang.ID == id {
+			// Jika ditemukan, hapus elemen ke-i dengan slicing
+			// ambil semua sebelum `i` dan setelah `i`, lalu gabung
 			languages = append(languages[:i], languages[i+1:]...)
-			res := Response{true, lang, "Language deleted successfully", http.StatusOK}
-			json.NewEncoder(w).Encode(res)
+
+			// Kirim response sukses dengan data yang dihapus
+			writeJSON(w, http.StatusOK, Response{
+				true, lang, MsgLanguageDeleted, http.StatusOK,
+			})
 			return
 		}
 	}
 
-	// Jika ID tidak ditemukan
-	res := Response{false, nil, "ID not found", http.StatusNotFound}
-	json.NewEncoder(w).Encode(res)
+	// Kalau ID nggak ditemukan di data, kirim not found
+	writeJSON(w, http.StatusNotFound, Response{
+		false, nil, MsgIDNotFound, http.StatusNotFound,
+	})
 }
 
-// Handler untuk UPDATE data berdasarkan ID (PUT)
-// Digunakan saat ingin mengedit data bahasa pemrograman
+// Handler PUT untuk update data berdasarkan ID
 func UpdateLanguage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	// Validasi method harus PUT
-	if r.Method != "PUT" {
-		res := Response{false, nil, "Method Not Allowed", http.StatusMethodNotAllowed}
-		json.NewEncoder(w).Encode(res)
+	// Cek apakah method yang dikirim adalah PUT
+	if r.Method != http.MethodPut {
+		// Kalau bukan, kirim response "Method Not Allowed"
+		writeJSON(w, http.StatusMethodNotAllowed, Response{
+			false, nil, MsgMethodNotAllowed, http.StatusMethodNotAllowed,
+		})
 		return
 	}
 
-	// Ambil ID dari query
+	// Ambil ID dari query parameter (?id=xxx)
 	id := r.URL.Query().Get("id")
+
+	// Validasi: kalau ID-nya kosong, langsung balikin error
 	if id == "" {
-		res := Response{false, nil, "ID is required", http.StatusBadRequest}
-		json.NewEncoder(w).Encode(res)
+		writeJSON(w, http.StatusBadRequest, Response{
+			false, nil, MsgIDRequired, http.StatusBadRequest,
+		})
 		return
 	}
 
-	// Decode body ke struct baru
+	// Buat variabel untuk menampung data hasil decode dari body request
 	var updatedLang ProgrammingLanguage
+
+	// Decode JSON dari body request ke dalam struct `updatedLang`
 	err := json.NewDecoder(r.Body).Decode(&updatedLang)
 	if err != nil {
-		res := Response{false, nil, "Invalid JSON", http.StatusBadRequest}
-		json.NewEncoder(w).Encode(res)
+		// Kalau gagal decode (format JSON salah), kirim error
+		writeJSON(w, http.StatusBadRequest, Response{
+			false, nil, MsgInvalidJSON, http.StatusBadRequest,
+		})
 		return
 	}
 
-	// Cari dan update data
+	// Loop semua data yang ada di slice `languages`
 	for i, lang := range languages {
+		// Cek apakah ID-nya cocok dengan yang dikirim
 		if lang.ID == id {
-			// Update hanya field yang dikirim
-			languages[i] = updatedLang // langsung ganti semua field
+			// Kalau cocok, update data di index tersebut
+			languages[i] = updatedLang
 
-			res := Response{true, updatedLang, "Language updated successfully", http.StatusOK}
-			json.NewEncoder(w).Encode(res)
+			// Kirim response sukses
+			writeJSON(w, http.StatusOK, Response{
+				true, updatedLang, MsgLanguageUpdated, http.StatusOK,
+			})
 			return
 		}
 	}
 
-	// Jika ID tidak ditemukan
-	res := Response{false, nil, "ID not found", http.StatusNotFound}
-	json.NewEncoder(w).Encode(res)
+	// Kalau data dengan ID tersebut nggak ditemukan, kirim not found
+	writeJSON(w, http.StatusNotFound, Response{
+		false, nil, MsgIDNotFound, http.StatusNotFound,
+	})
 }
 
-// Fungsi utama untuk menjalankan server dan daftarkan endpoint
+// Fungsi utama untuk jalankan server dan daftarkan endpoint
 func main() {
+	// Daftarkan handler untuk endpoint GET semua data
 	http.HandleFunc("/get-languages", GetLanguages)
+
+	// Daftarkan handler untuk endpoint GET berdasarkan ID (?id=xxx)
 	http.HandleFunc("/get-languages-byid", GetLanguagesById)
+
+	// Daftarkan handler untuk endpoint POST tambah data
 	http.HandleFunc("/add-languages", AddLanguages)
+
+	// Daftarkan handler untuk endpoint DELETE data berdasarkan ID (?id=xxx)
 	http.HandleFunc("/delete-language", DeleteLanguage)
+
+	// Daftarkan handler untuk endpoint PUT update data berdasarkan ID (?id=xxx)
 	http.HandleFunc("/update-language", UpdateLanguage)
 
-	fmt.Println("Server is running on http://localhost:8080")
+	// Info ke terminal kalau server sudah aktif di port 8080
+	fmt.Println("✅ Server is running on http://localhost:8080")
+
+	// Jalankan server HTTP di port 8080
 	http.ListenAndServe(":8080", nil)
 }
