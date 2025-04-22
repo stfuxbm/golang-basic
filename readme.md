@@ -1,53 +1,40 @@
-## Golang Basic Repository
+# Golang Basic
 
-This repository is a basic guide for those of you who want to start learning or refresh your knowledge of the fundamentals of the Go (Golang) programming language.
+This repository is designed as a learning resource for beginners who want to start learning Go (Golang). It provides a series of tutorials and basic applications that cover fundamental Go concepts and techniques.
 
-## How to Install Go
+## Installation Guide
 
-Before you start coding with Go, make sure Go is installed on your computer. Here's how:
+Follow these steps to install and run the project locally:
 
-1.  **Download Go:**
-    * Visit the official Go website at [https://golang.org/dl/](https://golang.org/dl/) and download the latest version that matches your computer's operating system (Windows, macOS, or Linux).
+1. **Install Go:**
 
-2.  **Check Installation:**
-    * Open your terminal (on Linux/macOS) or Command Prompt (on Windows).
-    * Type the command below and press Enter to see if Go is installed and its version:
-        ```bash
-        go version
-        ```
-        You will see information about the installed Go version. **Currently, based on this repository, the Go version being used is:**
-        ```
-        go version go1.22.4 darwin/amd64
-        ```
-        (This indicates Go version 1.22.4 running on macOS (darwin) with an AMD64 architecture.)
+    Visit the official Go website at [https://golang.org/dl/](https://golang.org/dl/) and download the latest version that matches your computer's operating system (Windows, macOS, or Linux).
 
-3.  **Running Go Programs:**
-    * To run a Go program file (which has the `.go` extension), use this command in the terminal:
-        ```bash
-        go run your_program_name.go
-        ```
-        Replace `your_program_name.go` with the name of your Go file.
+    After installation, verify that Go is installed correctly by running:
 
-    * **Faster Development with Air (Optional):**
-        If you are building web applications and want changes to be reflected immediately without having to rerun continuously, you can use a tool called **Air**. Here's how to install it:
-        ```bash
-        go install [github.com/cosmtrek/air@latest](https://www.google.com/search?q=https://github.com/cosmtrek/air%40latest)
-        ```
-        After installation, open the terminal in your project folder and run:
-         ```bash
-        air
-        ```
-4.  **Turning Go Programs into Applications:**
-    * To turn your Go program into an executable application file that can be run directly without the `go run` command, use this command:
-        ```bash
-        go build your_program_name.go
-        ```
-        The application file will appear in the same folder with your program's name (e.g., `your_program_name` on Linux and macOS, or `your_program_name.exe` on Windows).
+    ```bash
+    go version
+    ```
 
-## Official Go Learning Resources
+2. **Clone the repository:**
 
-If you want to learn more deeply and comprehensively about Go, don't hesitate to check out these official resources:
+    ```bash
+    git clone https://github.com/stfuxbm/golang-basic.git
+    ```
 
-* **Go Documentation:** [https://golang.org/doc/](https://golang.org/doc/) - A complete reference for the Go language.
-* **Go Tour:** [https://tour.golang.org/](https://tour.golang.org/) - An interactive tutorial to learn Go directly in your browser.
-* **Package Documentation:** [https://pkg.go.dev/](https://pkg.go.dev/) - A catalog of all standard and third-party libraries (packages) in Go.
+3. **Navigate to the project directory:**
+
+    All main application files are organized in separate folders based on topics (e.g., `anon-func`, `channel`, `constant`, `func`, etc.). You can navigate to the folder you want to explore and run the respective `main.go` file. Example:
+
+    ```bash
+    cd anon-func
+    go run main.go
+    ```
+
+## Contribution Guidelines
+
+Contributions are welcome. Fork this repository, create a new branch, and submit a pull request. Please follow the coding guidelines and add tests where necessary.
+
+## License
+
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute the code.
